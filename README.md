@@ -154,10 +154,18 @@ Navigate to `http://localhost:5173` in your browser.
 
 ## Screenshots
 
-| Resume Analysis | Mock Interview |
+| | |
 |---|---|
-| ![Resume Analysis](https://via.placeholder.com/400x250?text=Resume+Analysis) | ![Mock Interview](https://via.placeholder.com/400x250?text=Mock+Interview) |
-
+| **Sign In** | **Sign In** |
+| ![Sign In](Screenshots/image.png) | ![Sign In](Screenshots/image1.png) |
+| **Dashboard** | **Upload Resume** |
+| ![Dashboard](Screenshots/Dashboard.png) | ![Upload](Screenshots/Upload.png) |
+| **Resume Analysis** | **Resume Analysis** |
+| ![Analyze1](Screenshots/Analyze1.png) | ![Analyze2](Screenshots/Analyze2.png) |
+| **Mock Interview** | **Mock Interview** |
+| ![Interview](Screenshots/Interview.png) | ![Interview2](Screenshots/Interview2.png) |
+| **Interview Result** | |
+| ![Interview Result](Screenshots/Interview3.png) | |
 ---
 
 ## API Endpoints
