@@ -1,5 +1,4 @@
 import { v2 as cloudinary } from 'cloudinary';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
 
 cloudinary.config({
@@ -8,18 +7,23 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'resumes',
-    allowed_formats: ['pdf', 'docx'],
-    resource_type: 'raw',   // required for non-image files like PDF/DOCX
-  },
-});
+const storage = multer.memoryStorage();
 
-const upload = multer({ 
+const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }  // 5MB max
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowed = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+    if (allowed.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF and DOCX files are allowed'));
+    }
+  }
 });
 
+export { cloudinary };
 export default upload;
