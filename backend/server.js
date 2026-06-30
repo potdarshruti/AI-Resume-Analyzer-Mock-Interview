@@ -20,7 +20,7 @@ import interviewRoutes from "./routes/interviewRoutes.js";
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
   credentials: true
 }));
 
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/interview", interviewRoutes);
-
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
 // Debug — confirm keys are loading
 
 mongoose.connect(process.env.MONGO_URI, {
