@@ -69,10 +69,13 @@ const ResumeAnalyzer = () => {
       {/* ── Upload Section ── */}
       <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 12, padding: 24, marginBottom: 24 }}>
         <div style={{ marginBottom: 16 }}>
-          <label style={{ fontWeight: 600, display: "block", marginBottom: 6 }}>Resume (PDF or DOCX)</label>
-          <input type="file" accept=".pdf,.docx" onChange={(e) => setFile(e.target.files[0])} />
-          {file && <span style={{ fontSize: 13, color: "#6b7280", display: "block", marginTop: 4 }}>📄 {file.name}</span>}
-        </div>
+            <label style={{ fontWeight: 600, display: "block", marginBottom: 6 }}>Resume (PDF or DOCX)</label>
+            <input type="file" accept=".pdf,.docx" onChange={(e) => setFile(e.target.files[0])} />
+            {file && <span style={{ fontSize: 13, color: "#6b7280", display: "block", marginTop: 4 }}>📄 {file.name}</span>}
+            <p style={{ fontSize: 12, color: "#f59e0b", marginTop: 6, marginBottom: 0 }}>
+              ⚠️ Please upload a text-based PDF or DOCX. Scanned image PDFs (e.g. from DocScanner) are not supported.
+            </p>
+          </div>
         <div style={{ marginBottom: 16 }}>
           <label style={{ fontWeight: 600, display: "block", marginBottom: 6 }}>Target Job Title (optional)</label>
           <input value={jobTitle} onChange={(e) => setJobTitle(e.target.value)}
