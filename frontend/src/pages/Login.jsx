@@ -37,8 +37,8 @@ export default function Login() {
       <div style={cardStyle}>
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <span style={{ fontSize: 48 }}>🧠</span>
-          <h1 style={{ fontSize: 26, fontWeight: 800, color: "var(--primary)", margin: "8px 0 4px" }}>ResumeAI</h1>
+          <span style={{ fontSize: 48 }}>🎯</span>
+          <h1 style={{ fontSize: 26, fontWeight: 800, color: "var(--primary)", margin: "8px 0 4px" }}>ResuMockAI</h1>
           <p style={{ color: "var(--text2)", fontSize: 14 }}>Sign in to your account</p>
         </div>
 
