@@ -4,8 +4,7 @@ import pdf from "pdf-parse";
 import mammoth from "mammoth";
 import mongoose from "mongoose";
 import protect from "../middleware/authMiddleware.js";
-router.post("/analyze", protect, upload.single("resume"), async (req, res) => { ... });
-router.get("/history/:userId", protect, async (req, res) => { ... });
+
 import {
   parseResumeToProfile,
   calculateATSScore,
@@ -16,11 +15,12 @@ import Resume from "../models/Resume.js";
 const router = express.Router();
 
 // POST /api/resume/analyze
-router.post("/analyze", upload.single("resume"), async (req, res) => {
+router.post("/analyze", protect, upload.single("resume"), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
-    const { jobTitle = "", jobDescription = "", userId } = req.body;
+    const { jobTitle = "", jobDescription = "" } = req.body;
+    const userId = req.user.id; // 👈 from JWT, not from req.body — don't trust client-sent userId
     const fileBuffer = req.file.buffer;
     const fileType = req.file.mimetype;
 
@@ -63,7 +63,7 @@ router.post("/analyze", upload.single("resume"), async (req, res) => {
     );
 
     const resumeDoc = await Resume.create({
-      userId: userId ? new mongoose.Types.ObjectId(userId) : undefined,
+      userId: new mongoose.Types.ObjectId(userId),
       fileName: req.file.originalname,
       extractedText,
       parsedProfile,
@@ -93,8 +93,12 @@ router.post("/analyze", upload.single("resume"), async (req, res) => {
 });
 
 // GET /api/resume/history/:userId
-router.get("/history/:userId", async (req, res) => {
+router.get("/history/:userId", protect, async (req, res) => {
   try {
+    if (req.params.userId !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized to view this history" });
+    }
+
     const resumes = await Resume.find({ userId: req.params.userId })
       .sort({ uploadedAt: -1 })
       .select("-extractedText -jobDescription");
