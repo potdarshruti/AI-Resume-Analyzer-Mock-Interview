@@ -54,13 +54,16 @@ Make questions specific to THEIR skills and experience, not generic.
 `;
 
     const text = await askGroq(prompt);
-    const data = JSON.parse(text.replace(/```json|```/g, "").trim());
+    
+   const data = JSON.parse(text.replace(/```json|```/g, "").trim());
     res.status(200).json(data);
   } catch (error) {
-    console.error("Interview Questions Error:", error.message);
-    res.status(500).json({ message: "Error generating questions" });
+    console.error("Interview Feedback Error:", error.message);
+    res.status(500).json({ message: "Error generating feedback" });
   }
 });
+
+export default router;
 
 // POST /api/interview/feedback
 // Get AI feedback on a single answer
