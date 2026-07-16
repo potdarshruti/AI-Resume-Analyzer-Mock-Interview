@@ -1,8 +1,7 @@
 import express from "express";
 import Groq from "groq-sdk";
 import protect from "../middleware/authMiddleware.js";
-router.post("/analyze", protect, upload.single("resume"), async (req, res) => { ... });
-router.get("/history/:userId", protect, async (req, res) => { ... });
+
 const router = express.Router();
 
 let client = null;
@@ -22,9 +21,13 @@ const askGroq = async (prompt) => {
 
 // POST /api/interview/questions
 // Generate interview questions based on parsed resume profile
-router.post("/questions", async (req, res) => {
+router.post("/questions", protect, async (req, res) => {
   try {
     const { parsedProfile } = req.body;
+
+    if (!parsedProfile) {
+      return res.status(400).json({ message: "parsedProfile is required" });
+    }
 
     const prompt = `
 You are a technical interviewer. Based on this candidate profile, generate interview questions.
@@ -61,9 +64,13 @@ Make questions specific to THEIR skills and experience, not generic.
 
 // POST /api/interview/feedback
 // Get AI feedback on a single answer
-router.post("/feedback", async (req, res) => {
+router.post("/feedback", protect, async (req, res) => {
   try {
     const { question, answer, category } = req.body;
+
+    if (!question || !answer) {
+      return res.status(400).json({ message: "question and answer are required" });
+    }
 
     const prompt = `
 You are an experienced interviewer giving feedback on a candidate's answer.
@@ -84,12 +91,4 @@ Evaluate the answer and return ONLY valid JSON, no markdown, no backticks.
 `;
 
     const text = await askGroq(prompt);
-    const data = JSON.parse(text.replace(/```json|```/g, "").trim());
-    res.status(200).json(data);
-  } catch (error) {
-    console.error("Interview Feedback Error:", error.message);
-    res.status(500).json({ message: "Error generating feedback" });
-  }
-});
-
-export default router;
+    const data =
