@@ -1,6 +1,8 @@
 import express from "express";
 import Groq from "groq-sdk";
-
+import protect from "../middleware/authMiddleware.js";
+router.post("/analyze", protect, upload.single("resume"), async (req, res) => { ... });
+router.get("/history/:userId", protect, async (req, res) => { ... });
 const router = express.Router();
 
 let client = null;
