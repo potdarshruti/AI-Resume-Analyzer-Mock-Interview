@@ -3,7 +3,9 @@ import upload from "../middleware/uploadMiddleware.js";
 import pdf from "pdf-parse";
 import mammoth from "mammoth";
 import mongoose from "mongoose";
-
+import protect from "../middleware/authMiddleware.js";
+router.post("/analyze", protect, upload.single("resume"), async (req, res) => { ... });
+router.get("/history/:userId", protect, async (req, res) => { ... });
 import {
   parseResumeToProfile,
   calculateATSScore,
