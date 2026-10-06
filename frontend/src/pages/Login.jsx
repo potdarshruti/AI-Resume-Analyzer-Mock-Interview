@@ -20,9 +20,9 @@ export default function Login() {
       const res = await API.post("/auth/login", { email, password });
       login(res.data.token);
       navigate("/dashboard");
-    } catch {
-      setError("Invalid email or password.");
-    } finally {
+    }  catch (err) {
+     setError(err.response?.data?.message || err.message || "Login failed");
+   } finally {
       setLoading(false);
     }
   };
