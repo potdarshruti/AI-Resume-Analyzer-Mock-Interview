@@ -19,12 +19,19 @@ export const loginUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email: email.toLowerCase() });
+    const lowerEmail = email.toLowerCase();
+    console.log("Login attempt for:", lowerEmail);
+    
+    const user = await User.findOne({ email: lowerEmail });
+    console.log("User found:", !!user);
+    
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log("Password match:", isMatch);
+    
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
