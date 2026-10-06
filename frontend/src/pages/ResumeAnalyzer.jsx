@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
-
+const res = await axios.post("/resume/analyze", formData);
 const CircularProgress = ({ value, max = 10, size = 120, color = "#6366f1" }) => {
   const radius = 45;
   const circumference = 2 * Math.PI * radius;
