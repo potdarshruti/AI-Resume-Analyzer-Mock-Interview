@@ -1,8 +1,12 @@
-import axios from 'axios';
+// frontend/src/services/api.js
+import axios from "axios";
 
-const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api`,
-  withCredentials: true,
+const api = axios.create({ baseURL: "http://localhost:5000/api" });
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token"); // use your actual key
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
 });
 
-export default API;
+export default api;
