@@ -56,9 +56,9 @@ export default function Register() {
         password,
       });
       navigate("/");
-    } catch {
-      setError("Registration failed. Email may already be in use.");
-    } finally {
+    } catch (err) {
+     setError(err.response?.data?.message || err.message || "Registration failed");
+   } finally {
       setLoading(false);
     }
   };
